@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-16">
+		<title>The converter</title>
+		<style type = text/css>
+			html {
+				background-color: AquaMarine;
+			}
+			.title {
+				font-family: Monaco, Monospace;
+				font-size: 50px;
+			}
+			#upper-case, #lower-case, #proper-case, #sentence-case, #save-text-file {
+				background-color: pink;
+				font-family: Monaco, Monospace;
+				font-size: 20px;
+				padding-top: 5px;
+				padding-bottom: 5px;
+				padding-left: 10px;
+				padding-right: 10px;
+				margin: 3px;
+			}
+			#userInput {
+				width: 700px;
+				height: 300px;
+				font-family: "Courtier New", Monospace;
+				font-size: 18px;
+				background-color: PapayaWhip;
+				border: 3px brown;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="title">Case Converter</div>
+		<textarea id="userInput"></textarea>
+		<br>
+		<button id="upper-case">
+			Upper Case
+		</button>
+		<button id="lower-case">
+			Lower Case
+		</button>
+		<button id="proper-case">
+			Proper Case
+		</button>
+		<button id="sentence-case">
+			Sentence Case
+		</button>
+		<button id="save-text-file">
+			Save Text File
+		</button>
+		<script>
+			document.getElementById("upper-case").addEventListener("click", function() {
+				let text = document.getElementById("userInput").value;
+				text = text.toUpperCase();
+				document.getElementById("userInput").value = text;
+			})
+
+			document.getElementById("lower-case").addEventListener("click", function() {
+				let text = document.getElementById("userInput").value;
+				text = text.toLowerCase();
+				document.getElementById("userInput").value = text;
+			})
+
+			document.getElementById("proper-case").addEventListener("click", function() {
+				let text = document.getElementById("userInput").value;
+				text = text.split(" ");
+				let updatedText = "";
+				for (let i = 0; i < text.length; i++) {
+					let word = text[i];
+					let updatedWord = word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase();
+					updatedText = updatedText + " " + updatedWord;
+				}
+				updatedText = updatedText.substring(1);
+				document.getElementById("userInput").value = updatedText;
+			})
+
+			document.getElementById("sentence-case").addEventListener("click", function() {
+				let text = document.getElementById("userInput").value;
+				text = text.split(". ");
+				let updatedText = "";
+				for (let i = 0; i < text.length; i++) {
+					let sentence = text[i];
+					let updatedSentence = sentence.substring(0, 1).toUpperCase() + sentence.substring(1).toLowerCase();
+					updatedText = updatedText + ". " + updatedSentence;
+				}
+				updatedText = updatedText.substring(2);
+				document.getElementById("userInput").value = updatedText;
+			})
+			
+			function download(filename, text) {
+				let element = document.createElement('a');
+				element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+				element.setAttribute('download', filename);
+				
+				element.style.display = 'none';
+				document.body.appendChild(element);
+				
+				element.click();
+				
+				document.body.removeChild(element);
+			}
+			
+			document.getElementById("save-text-file").addEventListener("click", function() {
+				let text = document.getElementById("userInput").value;
+				download("text.txt", text);
+			})
+		</script>
+	</body>
+</html>
